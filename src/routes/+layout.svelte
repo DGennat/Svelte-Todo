@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
 	import '@skeletonlabs/skeleton/styles/skeleton.css';
 	import '../app.postcss';
@@ -10,7 +10,7 @@
 	import IoMdLogOut from 'svelte-icons/io/IoMdLogOut.svelte';
 	import { loggedInUser } from '../stores';
 
-	let loggedInUser_value;
+	let loggedInUser_value: string | null;
 
 	loggedInUser.subscribe((value) => {
 		loggedInUser_value = value;
