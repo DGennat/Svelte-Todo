@@ -25,7 +25,7 @@
 		</p>
 	</section>
 	<footer class="card-footer">
-		<a href="/login" class="btn variant-filled-tertiary" data-sveltekit-preload-data="hover">
+		<a href="/login" class="btn variant-filled-success" data-sveltekit-preload-data="hover">
 			Get started!
 		</a>
 	</footer>
