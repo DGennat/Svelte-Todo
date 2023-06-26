@@ -2,7 +2,10 @@
 	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
 	import '@skeletonlabs/skeleton/styles/skeleton.css';
 	import '../app.postcss';
-	import { AppShell } from '@skeletonlabs/skeleton';
+	import { AppShell, TabAnchor, TabGroup } from '@skeletonlabs/skeleton';
+	import MdHome from 'svelte-icons/md/MdHome.svelte';
+	import IoMdLogIn from 'svelte-icons/io/IoMdLogIn.svelte';
+	import IoMdCheckbox from 'svelte-icons/io/IoMdCheckbox.svelte';
 </script>
 
 <AppShell>
@@ -11,11 +14,44 @@
 	</svelte:fragment>
 
 	<slot />
+
 	<svelte:fragment slot="footer">
-		<nav>
-			<a class="anchor" href="/">home</a>
-			<a class="anchor" href="/login">login</a>
-			<a class="anchor" href="/todo">todo</a>
-		</nav>
+		<TabGroup
+			justify="justify-evenly"
+			active="variant-filled-primary"
+			hover="hover:variant-soft-primary"
+			rounded=""
+			border=""
+			class="bg-surface-100-800-token w-full"
+		>
+			<TabAnchor href="/">
+				<svelte:fragment slot="lead">
+					<div class="icon">
+						<MdHome />
+					</div>
+				</svelte:fragment>
+			</TabAnchor>
+			<TabAnchor href="/login">
+				<svelte:fragment slot="lead">
+					<div class="icon">
+						<IoMdLogIn />
+					</div>
+				</svelte:fragment>
+			</TabAnchor>
+			<TabAnchor href="/todo">
+				<svelte:fragment slot="lead">
+					<div class="icon">
+						<IoMdCheckbox />
+					</div>
+				</svelte:fragment>
+			</TabAnchor>
+		</TabGroup>
 	</svelte:fragment>
 </AppShell>
+
+<style>
+	.icon {
+		width: 40px;
+		height: 40px;
+	}
+</style>
