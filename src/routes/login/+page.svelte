@@ -1,13 +1,28 @@
 <script>
+	import { goto } from '$app/navigation';
+	import { app } from '../../Firebase';
+	import { getAuth, createUserWithEmailAndPassword } from 'Firebase/auth';
+	import { loggedInUser } from './../../stores';
+
 	let email = '';
 	let password = '';
+
+	const auth = getAuth(app);
 
 	function login() {
 		console.log('login was called', email, password);
 	}
 
-	function register() {
-		console.log('register was called', email, password);
+	async function register() {
+		try {
+			let user = await createUserWithEmailAndPassword(auth, email, password);
+			if (user.user.email) {
+				loggedInUser.set(user.user.email);
+			}
+			await goto('/todo');
+		} catch (e) {
+			console.log(e); //TODO: Fehlermeldung
+		}
 	}
 </script>
 
