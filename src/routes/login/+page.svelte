@@ -1,7 +1,11 @@
-<script>
+<script lang="ts">
 	import { goto } from '$app/navigation';
 	import { app } from '../../Firebase';
-	import { getAuth, createUserWithEmailAndPassword } from 'Firebase/auth';
+	import {
+		getAuth,
+		createUserWithEmailAndPassword,
+		signInWithEmailAndPassword
+	} from 'Firebase/auth';
 	import { loggedInUser } from './../../stores';
 
 	let email = '';
@@ -9,8 +13,14 @@
 
 	const auth = getAuth(app);
 
-	function login() {
-		console.log('login was called', email, password);
+	async function login() {
+		try {
+			let user = await signInWithEmailAndPassword(auth, email, password);
+			loggedInUser.set(user.user.email);
+			await goto('/todo');
+		} catch (e) {
+			console.log(e);
+		}
 	}
 
 	async function register() {
@@ -21,7 +31,7 @@
 			}
 			await goto('/todo');
 		} catch (e) {
-			console.log(e); //TODO: Fehlermeldung
+			console.log(e);
 		}
 	}
 </script>

@@ -8,13 +8,41 @@
 	import IoMdCheckbox from 'svelte-icons/io/IoMdCheckbox.svelte';
 	import FaUserAltSlash from 'svelte-icons/fa/FaUserAltSlash.svelte';
 	import IoMdLogOut from 'svelte-icons/io/IoMdLogOut.svelte';
-	import { loggedInUser } from '../stores';
+	import { loggedInUser, isLoggedIn } from '../stores';
+	import { onMount } from 'svelte';
+	import { app } from '../Firebase';
+	import { getAuth, onAuthStateChanged, signOut } from 'Firebase/auth';
+	import { goto } from '$app/navigation';
 
 	let loggedInUser_value: string | null;
 
 	loggedInUser.subscribe((value) => {
 		loggedInUser_value = value;
 	});
+
+	const auth = getAuth(app);
+
+	onMount(() => {
+		onAuthStateChanged(
+			auth,
+			(user) => {
+				if (user) {
+					loggedInUser.set(user.email);
+				} else {
+					loggedInUser.set('');
+				}
+			},
+			(error) => {
+				loggedInUser.set('');
+				console.log(error);
+			}
+		);
+	});
+
+	async function logOut() {
+		await signOut(auth);
+		await goto('/');
+	}
 </script>
 
 <AppShell>
@@ -22,8 +50,9 @@
 		<AppBar class="f">
 			<h1 class="h1">Svelte Todo</h1>
 			<svelte:fragment slot="trail">
+				<div>{loggedInUser_value}</div>
 				{#if loggedInUser_value}
-					<div class="icon-small flex">
+					<div class="icon-small flex" on:click={logOut}>
 						<IoMdLogOut />
 					</div>
 				{:else}
