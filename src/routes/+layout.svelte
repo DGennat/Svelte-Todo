@@ -8,11 +8,10 @@
 	import IoMdCheckbox from 'svelte-icons/io/IoMdCheckbox.svelte';
 	import FaUserAltSlash from 'svelte-icons/fa/FaUserAltSlash.svelte';
 	import IoMdLogOut from 'svelte-icons/io/IoMdLogOut.svelte';
-	import { loggedInUser, isLoggedIn } from '../stores';
+	import { loggedInUser } from '../stores';
 	import { onMount } from 'svelte';
 	import { app } from '../Firebase';
 	import { getAuth, onAuthStateChanged, signOut } from 'Firebase/auth';
-	import { goto } from '$app/navigation';
 
 	let loggedInUser_value: string | null;
 
@@ -41,7 +40,6 @@
 
 	async function logOut() {
 		await signOut(auth);
-		// await goto('/');
 	}
 </script>
 
