@@ -1,5 +1,14 @@
 <script lang="ts">
-	import { addDoc, collection, getDocs, query, serverTimestamp, where } from 'firebase/firestore';
+	import {
+		addDoc,
+		collection,
+		doc,
+		getDocs,
+		query,
+		serverTimestamp,
+		setDoc,
+		where
+	} from 'firebase/firestore';
 	import { loggedInUser } from './../../stores';
 	import { db } from './../../Firebase';
 
@@ -36,7 +45,6 @@
 				});
 			});
 			todoList = todos;
-			console.log(todoList);
 		}
 	}
 	loadTodos();
@@ -56,6 +64,10 @@
 			console.error('Error adding document: ', e);
 		}
 	}
+
+	async function update(id: string, done: boolean) {
+		await setDoc(doc(db, 'todos', id), { isDone: done }, { merge: true });
+	}
 </script>
 
 <div class="card p-4 m-5">
@@ -69,7 +81,12 @@
 			<div class="space-y-2">
 				{#each todoList as todo}
 					<label class="flex items-center space-x-2">
-						<input class="checkbox" type="checkbox" checked={todo.isDone} />
+						<input
+							class="checkbox"
+							type="checkbox"
+							bind:checked={todo.isDone}
+							on:change={update(todo.id, todo.isDone)}
+						/>
 						<p>{todo.todo}</p>
 					</label>
 				{/each}
