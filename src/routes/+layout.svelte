@@ -41,7 +41,7 @@
 
 	async function logOut() {
 		await signOut(auth);
-		await goto('/');
+		// await goto('/');
 	}
 </script>
 
@@ -52,9 +52,16 @@
 			<svelte:fragment slot="trail">
 				<div>{loggedInUser_value}</div>
 				{#if loggedInUser_value}
-					<div class="icon-small flex" on:click={logOut}>
-						<IoMdLogOut />
-					</div>
+					<a
+						href="/"
+						class="btn-icon variant-filled"
+						data-sveltekit-preload-data="hover"
+						on:click={logOut}
+					>
+						<div class="icon-small">
+							<IoMdLogOut />
+						</div>
+					</a>
 				{:else}
 					<div class="icon-small flex">
 						<FaUserAltSlash />
