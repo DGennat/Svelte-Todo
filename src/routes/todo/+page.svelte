@@ -2,6 +2,7 @@
 	import {
 		addDoc,
 		collection,
+		deleteDoc,
 		doc,
 		getDocs,
 		query,
@@ -11,6 +12,7 @@
 	} from 'firebase/firestore';
 	import { loggedInUser } from './../../stores';
 	import { db } from './../../Firebase';
+	import { afterUpdate } from 'svelte';
 
 	let loggedInUser_value: string | null;
 
@@ -47,7 +49,9 @@
 			todoList = todos;
 		}
 	}
-	loadTodos();
+	afterUpdate(() => {
+		loadTodos();
+	});
 
 	let newTodo = '';
 
@@ -60,6 +64,8 @@
 		};
 		try {
 			await addDoc(todosCollection, todo);
+			newTodo = '';
+			loadTodos();
 		} catch (e) {
 			console.error('Error adding document: ', e);
 		}
@@ -67,6 +73,12 @@
 
 	async function update(id: string, done: boolean) {
 		await setDoc(doc(db, 'todos', id), { isDone: done }, { merge: true });
+		loadTodos();
+	}
+
+	async function deleteTodo(id: string) {
+		await deleteDoc(doc(db, 'todos', id));
+		todoList = todoList.filter((todo) => todo.id !== id);
 	}
 </script>
 
@@ -88,6 +100,9 @@
 							on:change={update(todo.id, todo.isDone)}
 						/>
 						<p>{todo.todo}</p>
+						<button on:click={deleteTodo(todo.id)} type="button" class="badge variant-filled-error"
+							>X</button
+						>
 					</label>
 				{/each}
 			</div>
