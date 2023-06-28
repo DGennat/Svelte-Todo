@@ -11,7 +11,7 @@
 	import { loggedInUser } from '../stores';
 	import { onMount } from 'svelte';
 	import { app } from '../Firebase';
-	import { getAuth, onAuthStateChanged, signOut } from 'Firebase/auth';
+	import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 
 	let loggedInUser_value: string | null;
 

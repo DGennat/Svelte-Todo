@@ -12,7 +12,6 @@
 	} from 'firebase/firestore';
 	import { loggedInUser } from './../../stores';
 	import { db } from './../../Firebase';
-	import { afterUpdate } from 'svelte';
 
 	let loggedInUser_value: string | null;
 
@@ -49,9 +48,7 @@
 			todoList = todos;
 		}
 	}
-	afterUpdate(() => {
-		loadTodos();
-	});
+	loadTodos();
 
 	let newTodo = '';
 
@@ -66,6 +63,7 @@
 			await addDoc(todosCollection, todo);
 			newTodo = '';
 			loadTodos();
+			document.getElementById('newTodoInput')!.focus();
 		} catch (e) {
 			console.error('Error adding document: ', e);
 		}
@@ -113,9 +111,15 @@
 				<span>Add a new item:</span>
 				<div class="flex items-center">
 					<label class="label">
-						<input class="input" type="text" placeholder="todo" bind:value={newTodo} />
+						<input
+							id="newTodoInput"
+							class="input"
+							type="text"
+							placeholder="todo"
+							bind:value={newTodo}
+						/>
 					</label>
-					<button on:click={addNewTodo} type="button" class="btn variant-filled-success">Add</button
+					<button on:click={addNewTodo} type="submit" class="btn variant-filled-success">Add</button
 					>
 				</div>
 			</form>

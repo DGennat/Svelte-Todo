@@ -5,7 +5,7 @@
 		getAuth,
 		createUserWithEmailAndPassword,
 		signInWithEmailAndPassword
-	} from 'Firebase/auth';
+	} from 'firebase/auth';
 	import { loggedInUser } from './../../stores';
 
 	let email = '';
@@ -40,19 +40,22 @@
 	<header class="card-header">
 		<h2 class="h2">Login</h2>
 	</header>
-	<section class="p-4">
-		<label class="label">
-			<span>Email</span>
-			<input class="input" type="email" placeholder="Email" bind:value={email} />
-		</label>
-		<label class="label">
-			<span>Password</span>
-			<input class="input" type="password" placeholder="Password" bind:value={password} />
-		</label>
-	</section>
-	<footer class="card-footer">
-		<button on:click={login} type="button" class="btn variant-filled-success">Login</button>
-		<span>or</span>
-		<button on:click={register} type="button" class="btn variant-filled-tertiary">Register</button>
-	</footer>
+	<form>
+		<section class="p-4">
+			<label class="label">
+				<span>Email</span>
+				<input class="input" type="email" placeholder="Email" bind:value={email} />
+			</label>
+			<label class="label">
+				<span>Password</span>
+				<input class="input" type="password" placeholder="Password" bind:value={password} />
+			</label>
+		</section>
+		<footer class="card-footer">
+			<button on:click={login} type="submit" class="btn variant-filled-success">Login</button>
+			<span>or</span>
+			<button on:click={register} type="button" class="btn variant-filled-tertiary">Register</button
+			>
+		</footer>
+	</form>
 </div>
