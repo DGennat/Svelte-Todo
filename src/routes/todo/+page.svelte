@@ -95,11 +95,13 @@
 							class="checkbox"
 							type="checkbox"
 							bind:checked={todo.isDone}
-							on:change={update(todo.id, todo.isDone)}
+							on:change={() => update(todo.id, todo.isDone)}
 						/>
 						<p>{todo.todo}</p>
-						<button on:click={deleteTodo(todo.id)} type="button" class="badge variant-filled-error"
-							>X</button
+						<button
+							on:click={() => deleteTodo(todo.id)}
+							type="button"
+							class="badge variant-filled-error">X</button
 						>
 					</label>
 				{/each}
