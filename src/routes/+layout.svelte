@@ -12,6 +12,7 @@
 	import { onMount } from 'svelte';
 	import { app } from '../Firebase';
 	import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+	import { LightSwitch } from '@skeletonlabs/skeleton';
 
 	let loggedInUser_value: string | null;
 
@@ -68,6 +69,7 @@
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
+	<LightSwitch />
 
 	<slot />
 
