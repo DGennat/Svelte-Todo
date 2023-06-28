@@ -12,6 +12,8 @@
 	} from 'firebase/firestore';
 	import { loggedInUser } from './../../stores';
 	import { db } from './../../Firebase';
+	import { send, receive } from './../../transition';
+	// import { ProgressBar } from '@skeletonlabs/skeleton';
 
 	let loggedInUser_value: string | null;
 
@@ -80,6 +82,7 @@
 	}
 </script>
 
+<!-- <ProgressBar label="Progress Bar" value={50} max={100} /> -->
 <div class="card p-4 m-5">
 	<header class="card-header">
 		<h2 class="h2">Todo</h2>

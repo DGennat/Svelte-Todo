@@ -46,8 +46,10 @@
 
 <AppShell>
 	<svelte:fragment slot="header">
-		<AppBar class="f">
-			<h1 class="h1">Svelte Todo</h1>
+		<AppBar class="flex column ">
+			<svelte:fragment slot="lead">
+				<h1 class="h1">Svelte Todo</h1>
+			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<div>{loggedInUser_value}</div>
 				{#if loggedInUser_value}
@@ -69,7 +71,7 @@
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
-	<LightSwitch />
+	<LightSwitch class="ms-2 mt-5" />
 
 	<slot />
 
