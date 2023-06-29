@@ -85,94 +85,100 @@
 </script>
 
 <!-- <ProgressBar label="Progress Bar" value={50} max={100} /> -->
-<div class="card p-4 m-5">
-	<header class="card-header">
-		<h2 class="h2">Todo</h2>
-	</header>
-
-	{#if loggedInUser_value}
-		<section class="p-4">
-			<div class="space-y-2">
-				{#each todoList_value.filter((todo) => todo.user === loggedInUser_value) as todo}
-					<!-- {#each todoList.filter((todo) => todo.isDone === false) as todo (todo.id)} -->
-					{#if !todo.isDone}
-						<label class="flex items-center space-x-2">
-							<input
-								class="checkbox"
-								type="checkbox"
-								bind:checked={todo.isDone}
-								on:change={() => update(todo.id, todo.isDone)}
-							/>
-							<p>{todo.todo}</p>
-							<button
-								on:click={() => deleteTodo(todo.id)}
-								type="button"
-								class="badge variant-filled-error">X</button
-							>
-						</label>
-					{/if}
-				{/each}
-			</div>
-		</section>
-
-		<footer class="card-footer">
-			<form>
-				<span>Add a new item:</span>
-				<div class="flex items-center">
-					<label class="label">
-						<input
-							id="newTodoInput"
-							class="input"
-							type="text"
-							placeholder="todo"
-							bind:value={newTodo}
-						/>
-					</label>
-					<button on:click={addNewTodo} type="submit" class="btn variant-filled-success">Add</button
-					>
-				</div>
-			</form>
-		</footer>
-	{:else}
-		<section class="p-4">
-			<p>You have to login</p>
-		</section>
-		<footer class="card-footer">
-			<a href="/login" class="btn variant-filled-success" data-sveltekit-preload-data="hover">
-				Go to login
-			</a>
-		</footer>
-	{/if}
-</div>
-
-{#if loggedInUser_value}
-	<div class="card p-4 m-5">
+<!-- <div class="lg:flex flex-wrap justify-center space-x-2"> -->
+<div class="sm:flex justify-center">
+	<!-- <div class="flex justify-center sm:w-auto"> -->
+	<div class="card p-4 m-5 w-4/5 sm:w-2/5">
 		<header class="card-header">
-			<h2 class="h2">Done</h2>
+			<h2 class="h2">Todo</h2>
 		</header>
 
-		<section class="p-4">
-			<div class="space-y-2">
-				{#each todoList_value.filter((todo) => todo.user === loggedInUser_value) as todo}
-					<!-- {#each todoList.filter((todo) => todo.isDone === false) as todo (todo.id)} -->
-					{#if todo.isDone}
-						<label class="flex items-center space-x-2">
+		{#if loggedInUser_value}
+			<section class="p-4">
+				<div class="space-y-2">
+					{#each todoList_value.filter((todo) => todo.user === loggedInUser_value) as todo}
+						<!-- {#each todoList.filter((todo) => todo.isDone === false) as todo (todo.id)} -->
+						{#if !todo.isDone}
+							<label class="flex items-center space-x-2">
+								<input
+									class="checkbox"
+									type="checkbox"
+									bind:checked={todo.isDone}
+									on:change={() => update(todo.id, todo.isDone)}
+								/>
+								<p>{todo.todo}</p>
+								<button
+									on:click={() => deleteTodo(todo.id)}
+									type="button"
+									class="badge variant-filled-error">X</button
+								>
+							</label>
+						{/if}
+					{/each}
+				</div>
+			</section>
+
+			<footer class="card-footer">
+				<form>
+					<span>Add a new item:</span>
+					<div class="flex items-center">
+						<label class="label">
 							<input
-								class="checkbox"
-								type="checkbox"
-								bind:checked={todo.isDone}
-								on:change={() => update(todo.id, todo.isDone)}
+								id="newTodoInput"
+								class="input"
+								type="text"
+								placeholder="todo"
+								bind:value={newTodo}
 							/>
-							<p>{todo.todo}</p>
-							<button
-								on:click={() => deleteTodo(todo.id)}
-								type="button"
-								class="badge variant-filled-error">X</button
-							>
 						</label>
-					{/if}
-				{/each}
-			</div>
-		</section>
+						<button on:click={addNewTodo} type="submit" class="btn variant-filled-success"
+							>Add</button
+						>
+					</div>
+				</form>
+			</footer>
+		{:else}
+			<section class="p-4">
+				<p>You have to login</p>
+			</section>
+			<footer class="card-footer">
+				<a href="/login" class="btn variant-filled-success" data-sveltekit-preload-data="hover">
+					Go to login
+				</a>
+			</footer>
+		{/if}
 	</div>
-{/if}
+	<!-- </div> -->
+
+	{#if loggedInUser_value}
+		<div class="card p-4 m-5 w-4/5 sm:w-2/5">
+			<header class="card-header">
+				<h2 class="h2">Done</h2>
+			</header>
+
+			<section class="p-4">
+				<div class="space-y-2">
+					{#each todoList_value.filter((todo) => todo.user === loggedInUser_value) as todo}
+						<!-- {#each todoList.filter((todo) => todo.isDone === false) as todo (todo.id)} -->
+						{#if todo.isDone}
+							<label class="flex items-center space-x-2">
+								<input
+									class="checkbox"
+									type="checkbox"
+									bind:checked={todo.isDone}
+									on:change={() => update(todo.id, todo.isDone)}
+								/>
+								<p>{todo.todo}</p>
+								<button
+									on:click={() => deleteTodo(todo.id)}
+									type="button"
+									class="badge variant-filled-error">X</button
+								>
+							</label>
+						{/if}
+					{/each}
+				</div>
+			</section>
+		</div>
+	{/if}
+</div>
