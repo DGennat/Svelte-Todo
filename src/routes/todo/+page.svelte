@@ -46,11 +46,12 @@
 				});
 			});
 			// todoList = todos;
-			todoList.set(todos.filter((todo) => todo.user === loggedInUser_value));
+			// todoList.set(todos.filter((todo) => todo.user === loggedInUser_value));
+			todoList.set(todos);
 		}
 	}
 
-	if (todoList_value[0].user !== loggedInUser_value) {
+	if (!todoList_value[0]) {
 		loadTodos();
 	}
 
@@ -75,11 +76,6 @@
 
 	async function update(id: string, done: boolean) {
 		await setDoc(doc(db, 'todos', id), { isDone: done }, { merge: true });
-		// loadTodos();
-		console.log(
-			'Ist isDone synchron?',
-			todoList_value.filter((todo) => todo.id === id)
-		);
 	}
 
 	async function deleteTodo(id: string) {
@@ -98,7 +94,7 @@
 		<section class="p-4">
 			<h3 class="h3">Your personal list</h3>
 			<div class="space-y-2">
-				{#each todoList_value as todo}
+				{#each todoList_value.filter((todo) => todo.user === loggedInUser_value) as todo}
 					<!-- {#each todoList.filter((todo) => todo.isDone === false) as todo (todo.id)} -->
 					<label class="flex items-center space-x-2">
 						<input
