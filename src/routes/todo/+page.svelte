@@ -92,24 +92,25 @@
 
 	{#if loggedInUser_value}
 		<section class="p-4">
-			<h3 class="h3">Your personal list</h3>
 			<div class="space-y-2">
 				{#each todoList_value.filter((todo) => todo.user === loggedInUser_value) as todo}
 					<!-- {#each todoList.filter((todo) => todo.isDone === false) as todo (todo.id)} -->
-					<label class="flex items-center space-x-2">
-						<input
-							class="checkbox"
-							type="checkbox"
-							bind:checked={todo.isDone}
-							on:change={() => update(todo.id, todo.isDone)}
-						/>
-						<p>{todo.todo}</p>
-						<button
-							on:click={() => deleteTodo(todo.id)}
-							type="button"
-							class="badge variant-filled-error">X</button
-						>
-					</label>
+					{#if !todo.isDone}
+						<label class="flex items-center space-x-2">
+							<input
+								class="checkbox"
+								type="checkbox"
+								bind:checked={todo.isDone}
+								on:change={() => update(todo.id, todo.isDone)}
+							/>
+							<p>{todo.todo}</p>
+							<button
+								on:click={() => deleteTodo(todo.id)}
+								type="button"
+								class="badge variant-filled-error">X</button
+							>
+						</label>
+					{/if}
 				{/each}
 			</div>
 		</section>
@@ -143,3 +144,35 @@
 		</footer>
 	{/if}
 </div>
+
+{#if loggedInUser_value}
+	<div class="card p-4 m-5">
+		<header class="card-header">
+			<h2 class="h2">Done</h2>
+		</header>
+
+		<section class="p-4">
+			<div class="space-y-2">
+				{#each todoList_value.filter((todo) => todo.user === loggedInUser_value) as todo}
+					<!-- {#each todoList.filter((todo) => todo.isDone === false) as todo (todo.id)} -->
+					{#if todo.isDone}
+						<label class="flex items-center space-x-2">
+							<input
+								class="checkbox"
+								type="checkbox"
+								bind:checked={todo.isDone}
+								on:change={() => update(todo.id, todo.isDone)}
+							/>
+							<p>{todo.todo}</p>
+							<button
+								on:click={() => deleteTodo(todo.id)}
+								type="button"
+								class="badge variant-filled-error">X</button
+							>
+						</label>
+					{/if}
+				{/each}
+			</div>
+		</section>
+	</div>
+{/if}
