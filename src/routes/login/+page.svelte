@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { app } from '../../Firebase';
+	import { auth } from '../../Firebase';
 	import {
-		getAuth,
+		// getAuth,
 		createUserWithEmailAndPassword,
 		signInWithEmailAndPassword
 	} from 'firebase/auth';
@@ -11,7 +11,7 @@
 	let email = '';
 	let password = '';
 
-	const auth = getAuth(app);
+	// const auth = getAuth(app);
 
 	async function login() {
 		try {

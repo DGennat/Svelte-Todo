@@ -10,7 +10,7 @@
 	import IoMdLogOut from 'svelte-icons/io/IoMdLogOut.svelte';
 	import { loggedInUser } from '../stores';
 	import { onMount } from 'svelte';
-	import { app } from '../Firebase';
+	import { auth } from '../Firebase';
 	import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 	import { LightSwitch } from '@skeletonlabs/skeleton';
 
@@ -20,7 +20,7 @@
 		loggedInUser_value = value;
 	});
 
-	const auth = getAuth(app);
+	// const auth = getAuth(app);
 
 	onMount(() => {
 		onAuthStateChanged(
