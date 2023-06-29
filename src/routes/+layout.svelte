@@ -71,7 +71,7 @@
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
-	<LightSwitch class="ms-2 mt-5" />
+	<LightSwitch class="ms-2 mt-5 left-0" />
 
 	<slot />
 

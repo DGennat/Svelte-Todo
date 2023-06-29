@@ -35,7 +35,8 @@
 
 	async function loadTodos() {
 		if (loggedInUser_value) {
-			const q = query(todosCollection, where('user', '==', loggedInUser_value));
+			// const q = query(todosCollection, where('user', '==', loggedInUser_value));
+			const q = query(todosCollection);
 			const querySnapshot = await getDocs(q);
 			let todos: Todos[] = [];
 			querySnapshot.forEach((todo) => {
@@ -47,7 +48,9 @@
 					id: todo.id
 				});
 			});
-			todoList = todos;
+			// todoList = todos;
+			todoList = todos.filter((todo) => todo.user === loggedInUser_value);
+			console.log('loaded and filtered todos: ', todoList);
 		}
 	}
 	loadTodos();
@@ -73,7 +76,11 @@
 
 	async function update(id: string, done: boolean) {
 		await setDoc(doc(db, 'todos', id), { isDone: done }, { merge: true });
-		loadTodos();
+		// loadTodos();
+		console.log(
+			'Ist isDone synchron?',
+			todoList.filter((todo) => todo.id === id)
+		);
 	}
 
 	async function deleteTodo(id: string) {
@@ -93,6 +100,7 @@
 			<h3 class="h3">Your personal list</h3>
 			<div class="space-y-2">
 				{#each todoList as todo}
+					<!-- {#each todoList.filter((todo) => todo.isDone === false) as todo (todo.id)} -->
 					<label class="flex items-center space-x-2">
 						<input
 							class="checkbox"
