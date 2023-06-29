@@ -7,31 +7,28 @@
 		getDocs,
 		query,
 		serverTimestamp,
-		setDoc,
-		where
+		setDoc
+		// where
 	} from 'firebase/firestore';
-	import { loggedInUser } from './../../stores';
+	import { loggedInUser, todoList } from './../../stores';
 	import { db } from './../../Firebase';
 	import { send, receive } from './../../transition';
+	import type { Todos } from '../../models';
 	// import { ProgressBar } from '@skeletonlabs/skeleton';
 
-	let loggedInUser_value: string | null;
+	let loggedInUser_value: string | null = '';
 
 	loggedInUser.subscribe((value) => {
 		loggedInUser_value = value;
 	});
 
-	interface Todos {
-		todo: string;
-		isDone: boolean;
-		user: string;
-		timestamp: Object;
-		id: string;
-	}
+	let todoList_value: Todos[] = [];
+
+	todoList.subscribe((value) => {
+		todoList_value = value;
+	});
 
 	const todosCollection = collection(db, 'todos');
-
-	let todoList: Todos[] = [];
 
 	async function loadTodos() {
 		if (loggedInUser_value) {
@@ -49,11 +46,13 @@
 				});
 			});
 			// todoList = todos;
-			todoList = todos.filter((todo) => todo.user === loggedInUser_value);
-			console.log('loaded and filtered todos: ', todoList);
+			todoList.set(todos.filter((todo) => todo.user === loggedInUser_value));
 		}
 	}
-	loadTodos();
+
+	if (todoList_value[0].user !== loggedInUser_value) {
+		loadTodos();
+	}
 
 	let newTodo = '';
 
@@ -79,13 +78,13 @@
 		// loadTodos();
 		console.log(
 			'Ist isDone synchron?',
-			todoList.filter((todo) => todo.id === id)
+			todoList_value.filter((todo) => todo.id === id)
 		);
 	}
 
 	async function deleteTodo(id: string) {
 		await deleteDoc(doc(db, 'todos', id));
-		todoList = todoList.filter((todo) => todo.id !== id);
+		todoList_value = todoList_value.filter((todo) => todo.id !== id);
 	}
 </script>
 
@@ -99,7 +98,7 @@
 		<section class="p-4">
 			<h3 class="h3">Your personal list</h3>
 			<div class="space-y-2">
-				{#each todoList as todo}
+				{#each todoList_value as todo}
 					<!-- {#each todoList.filter((todo) => todo.isDone === false) as todo (todo.id)} -->
 					<label class="flex items-center space-x-2">
 						<input
