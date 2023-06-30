@@ -15,7 +15,7 @@
 
 	async function login() {
 		try {
-			let user = await signInWithEmailAndPassword(auth, email, password);
+			const user = await signInWithEmailAndPassword(auth, email, password);
 			loggedInUser.set(user.user.email);
 			await goto('/todo');
 		} catch (e) {
@@ -25,7 +25,7 @@
 
 	async function register() {
 		try {
-			let user = await createUserWithEmailAndPassword(auth, email, password);
+			const user = await createUserWithEmailAndPassword(auth, email, password);
 			if (user.user.email) {
 				loggedInUser.set(user.user.email);
 			}

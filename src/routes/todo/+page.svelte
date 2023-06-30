@@ -16,26 +16,14 @@
 	import type { Todos } from '../../models';
 	// import { ProgressBar } from '@skeletonlabs/skeleton';
 
-	let loggedInUser_value: string | null = '';
-
-	loggedInUser.subscribe((value) => {
-		loggedInUser_value = value;
-	});
-
-	let todoList_value: Todos[] = [];
-
-	todoList.subscribe((value) => {
-		todoList_value = value;
-	});
-
 	const todosCollection = collection(db, 'todos');
 
 	async function loadTodos() {
-		if (loggedInUser_value) {
+		if ($loggedInUser) {
 			// const q = query(todosCollection, where('user', '==', loggedInUser_value));
 			const q = query(todosCollection);
 			const querySnapshot = await getDocs(q);
-			let todos: Todos[] = [];
+			const todos: Todos[] = [];
 			querySnapshot.forEach((todo) => {
 				todos.push({
 					todo: todo.data().todo,
@@ -51,7 +39,7 @@
 		}
 	}
 
-	if (!todoList_value[0]) {
+	if (!$todoList[0]) {
 		loadTodos();
 	}
 
@@ -61,7 +49,7 @@
 		const todo = {
 			todo: newTodo,
 			isDone: false,
-			user: loggedInUser_value,
+			user: $loggedInUser,
 			timestamp: serverTimestamp()
 		};
 		try {
@@ -80,7 +68,7 @@
 
 	async function deleteTodo(id: string) {
 		await deleteDoc(doc(db, 'todos', id));
-		todoList_value = todoList_value.filter((todo) => todo.id !== id);
+		$todoList = $todoList.filter((todo) => todo.id !== id);
 	}
 </script>
 
@@ -94,10 +82,10 @@
 			<h2 class="h2">Todo</h2>
 		</header>
 
-		{#if loggedInUser_value}
+		{#if $loggedInUser}
 			<section class="p-4">
 				<div class="space-y-2">
-					{#each todoList_value.filter((todo) => todo.user === loggedInUser_value) as todo}
+					{#each $todoList.filter((todo) => todo.user === $loggedInUser) as todo}
 						<!-- {#each todoList.filter((todo) => todo.isDone === false) as todo (todo.id)} -->
 						{#if !todo.isDone}
 							<label
@@ -155,7 +143,7 @@
 	</div>
 	<!-- </div> -->
 
-	{#if loggedInUser_value}
+	{#if $loggedInUser}
 		<div class="card p-4 m-5 w-4/5 sm:w-2/5">
 			<header class="card-header">
 				<h2 class="h2">Done</h2>
@@ -163,7 +151,7 @@
 
 			<section class="p-4">
 				<div class="space-y-2">
-					{#each todoList_value.filter((todo) => todo.user === loggedInUser_value) as todo (todo.id)}
+					{#each $todoList.filter((todo) => todo.user === $loggedInUser) as todo (todo.id)}
 						<!-- {#each todoList.filter((todo) => todo.isDone === false) as todo (todo.id)} -->
 						{#if todo.isDone}
 							<label
