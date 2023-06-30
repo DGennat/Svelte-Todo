@@ -152,7 +152,7 @@
 			<section class="p-4">
 				<div class="space-y-2">
 					{#each $todoList.filter((todo) => todo.user === $loggedInUser) as todo (todo.id)}
-						<!-- {#each todoList.filter((todo) => todo.isDone === false) as todo (todo.id)} -->
+						<!-- {#each todoList.filter((todo) => todo.isDone === false) as todo (todo.id)}    -->
 						{#if todo.isDone}
 							<label
 								class="flex items-center space-x-2"
