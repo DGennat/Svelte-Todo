@@ -85,6 +85,7 @@
 </script>
 
 <!-- <ProgressBar label="Progress Bar" value={50} max={100} /> -->
+
 <!-- <div class="lg:flex flex-wrap justify-center space-x-2"> -->
 <div class="sm:flex justify-center">
 	<!-- <div class="flex justify-center sm:w-auto"> -->
@@ -99,7 +100,11 @@
 					{#each todoList_value.filter((todo) => todo.user === loggedInUser_value) as todo}
 						<!-- {#each todoList.filter((todo) => todo.isDone === false) as todo (todo.id)} -->
 						{#if !todo.isDone}
-							<label class="flex items-center space-x-2">
+							<label
+								class="flex items-center space-x-2"
+								in:receive={{ key: todo.id }}
+								out:send={{ key: todo.id }}
+							>
 								<input
 									class="checkbox"
 									type="checkbox"
@@ -158,10 +163,14 @@
 
 			<section class="p-4">
 				<div class="space-y-2">
-					{#each todoList_value.filter((todo) => todo.user === loggedInUser_value) as todo}
+					{#each todoList_value.filter((todo) => todo.user === loggedInUser_value) as todo (todo.id)}
 						<!-- {#each todoList.filter((todo) => todo.isDone === false) as todo (todo.id)} -->
 						{#if todo.isDone}
-							<label class="flex items-center space-x-2">
+							<label
+								class="flex items-center space-x-2"
+								in:receive={{ key: todo.id }}
+								out:send={{ key: todo.id }}
+							>
 								<input
 									class="checkbox"
 									type="checkbox"
